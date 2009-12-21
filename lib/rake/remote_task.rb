@@ -437,9 +437,6 @@ class Rake::RemoteTask < Rake::Task
     simple_set(:deploy_timestamped, true,
                :deploy_via,         :export,
                :keep_releases,      5,
-               :migrate_args,       "",
-               :migrate_target,     :latest,
-               :rails_env,          "production",
                :rake_cmd,           "rake",
                :revision,           "head",
                :rsync_cmd,          "rsync",
@@ -449,7 +446,9 @@ class Rake::RemoteTask < Rake::Task
                :sudo_cmd,           "sudo",
                :sudo_flags,         ['-p Password:'],
                :sudo_prompt,        /^Password:/,
-               :umask,              '02')
+               :umask,              '02',
+               :mkdirs,             [],
+               :shared_paths,       {})
 
     set(:current_release)    { File.join(releases_path, releases[-1]) }
     set(:latest_release)     { deploy_timestamped?release_path:current_release}
