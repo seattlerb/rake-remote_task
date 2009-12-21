@@ -1,0 +1,8 @@
+.autotest
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+lib/rake/remote_task.rb
+lib/rake/test_case.rb
+test/test_rake_remote_task.rb
