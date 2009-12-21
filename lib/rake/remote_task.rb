@@ -31,29 +31,6 @@ module Rake
   ##
   # Raised when an environment variable hasn't been set.
   class FetchError < Error; end
-
-  module TaskManager
-    ##
-    # This gives us access to the tasks already defined in rake.
-    def all_tasks
-      @tasks
-    end
-  end
-
-  ##
-  # Hooks into rake and allows us to clear out a task by name or
-  # regexp. Use this if you want to completely override a task instead
-  # of extend it.
-  def self.clear_tasks(*tasks)
-    tasks.flatten.each do |name|
-      case name
-      when Regexp then
-        Rake.application.all_tasks.delete_if { |k,_| k =~ name }
-      else
-        Rake.application.all_tasks.delete(name)
-      end
-    end
-  end
 end
 
 ##

@@ -1,9 +1,7 @@
 === 2.0.0 / 2009-12-20
 
-* 1 major enhancement:
+* 1 major enhancement
 
   * Split out from Vlad.
 
-* 1 minor enhancement:
 
-  * Resurrected Rake.clear_tasks.
