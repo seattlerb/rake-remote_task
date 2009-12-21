@@ -194,6 +194,18 @@ class TestRakeRemoteTask < Rake::TestCase
     assert_equal '', err
   end
 
+  def test_run_dir
+    util_setup_task
+    @task.target_host = "app.example.com:/www/dir1"
+
+    @task.run("ls")
+
+    commands = @task.commands
+
+    assert_equal 1, commands.size, 'not enough commands'
+    assert_equal [["ssh", "app.example.com", "cd /www/dir1 && ls"]], commands
+  end
+
   def test_run_failing_command
     util_set_hosts
     util_setup_task

@@ -6,14 +6,15 @@ $TESTING ||= false
 $TRACE = Rake.application.options.trace
 $-w = true if $TRACE # asshat, don't mess with my warn.
 
-def export receiver, *methods
+[
+ ["Thread.current[:task]", :get, :put, :rsync, :run, :sudo, :target_host],
+ ["Rake::RemoteTask",      :host, :remote_task, :role, :set]
+].each do |methods|
+  receiver = methods.shift
   methods.each do |method|
     eval "def #{method} *args, &block; #{receiver}.#{method}(*args, &block);end"
   end
 end
-
-export "Thread.current[:task]", :get, :put, :rsync, :run, :sudo, :target_host
-export "Rake::RemoteTask",      :host, :remote_task, :role, :set
 
 module Rake
   ##
@@ -53,7 +54,12 @@ class Rake::RemoteTask < Rake::Task
   ##
   # The host this task is running on during execution.
 
-  attr_accessor :target_host
+  attr_reader :target_host
+
+  ##
+  # The directory on the host this task is running in during execution.
+
+  attr_reader :target_dir
 
   ##
   # An Array of Actions this host will perform during execution. Use
@@ -160,8 +166,9 @@ class Rake::RemoteTask < Rake::Task
   # sudo password will be prompted for then saved for subsequent sudo commands.
 
   def run command
-    cmd = [ssh_cmd, ssh_flags, target_host, command].flatten
-    result = []
+    command = "cd #{target_dir} && #{command}" if target_dir
+    cmd     = [ssh_cmd, ssh_flags, target_host, command].flatten
+    result  = []
 
     trace = [ssh_cmd, ssh_flags, target_host, "'#{command}'"].flatten.join(' ')
     warn trace if $TRACE
@@ -507,6 +514,22 @@ class Rake::RemoteTask < Rake::Task
   end
 
   ##
+  # Sets the target host. Allows you to set an optional directory
+  # using the format:
+  #
+  #    host.domain:/dir
+
+  def target_host= host
+    if host =~ /^(.+):(.+?)$/
+      @target_host = $1
+      @target_dir  = $2
+    else
+      @target_host = host
+      @target_dir  = nil
+    end
+  end
+
+  ##
   # The hosts this task will execute on. The hosts are determined from
   # the role this task belongs to.
   #
@@ -539,7 +562,7 @@ class Rake::RemoteTask < Rake::Task
     return true if roles.empty?
     # borrowed from hosts_for:
     roles.flatten.each { |r|
-      return true unless @@def_role_hash.eql? Rake::RemoteTask.roles[r] 
+      return true unless @@def_role_hash.eql? Rake::RemoteTask.roles[r]
     }
     return false
   end
