@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'hoe'
 
+Hoe.plugin :isolate
 Hoe.plugin :seattlerb
 
 Hoe.spec 'rake-remote_task' do
@@ -14,6 +15,8 @@ Hoe.spec 'rake-remote_task' do
 
   extra_deps << ['rake',  '~> 0.8.0']
   extra_deps << ['open4', '~> 0.9.0']
+
+  extra_dev_deps << ['minitest', '~> 1.7.0']
 
   # TODO: remove 1.9
   multiruby_skip << "1.9" << "rubinius"
