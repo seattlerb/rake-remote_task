@@ -3,7 +3,7 @@
 require 'rubygems'
 require 'hoe'
 
-Hoe.plugin :isolate
+# HACK Hoe.plugin :isolate # fudging releases - work it out w/ release script
 Hoe.plugin :seattlerb
 
 Hoe.spec 'rake-remote_task' do
