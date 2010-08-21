@@ -18,8 +18,7 @@ Hoe.spec 'rake-remote_task' do
 
   extra_dev_deps << ['minitest', '~> 1.7.0']
 
-  # TODO: remove 1.9
-  multiruby_skip << "1.9" << "rubinius"
+  multiruby_skip << "rubinius"
 end
 
 # vim: syntax=ruby
