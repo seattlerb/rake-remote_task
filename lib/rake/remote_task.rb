@@ -416,6 +416,10 @@ class Rake::RemoteTask < Rake::Task
     Rake::RemoteTask.default_env[name] = Rake::RemoteTask.env[name] =
       default_block || value
 
+    if Object.public_instance_methods.include? name.to_sym then
+      Object.send :alias_method, :"old_#{name}", name
+    end
+
     Object.send :define_method, name do
       Rake::RemoteTask.fetch name
     end
@@ -612,13 +616,13 @@ class Rake::RemoteTask < Rake::Task
       hosts.each do |host|
         t = task.clone
         t.target_host = host
-        thread = Thread.new(t) do |task|
-          Thread.current[:task] = task
+        thread = Thread.new(t) do |task2|
+          Thread.current[:task] = task2
           case block.arity
           when 1
-            block.call task
+            block.call task2
           else
-            block.call task, args
+            block.call task2, args
           end
           Thread.current[:task] = nil
         end

@@ -107,7 +107,7 @@ class TestRakeRemoteTask < Rake::TestCase
   def test_rsync_fail
     util_setup_task
     @task.target_host = "app.example.com"
-    @task.action = lambda { false }
+    @task.action = proc { false }
 
     e = assert_raises Rake::CommandFailedError do
       assert_silent do
@@ -211,7 +211,7 @@ class TestRakeRemoteTask < Rake::TestCase
     util_setup_task
     @task.input = StringIO.new "file1\nfile2\n"
     @task.target_host =  'app.example.com'
-    @task.action = lambda { 1 }
+    @task.action = proc { 1 }
 
     e = assert_raises(Rake::CommandFailedError) { @task.run("ls") }
     assert_equal "execution failed with status 1: ssh app.example.com ls", e.message
