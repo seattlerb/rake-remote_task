@@ -27,7 +27,12 @@ module Rake
 
   ##
   # Raised when a remote command fails.
-  class CommandFailedError < Error; end
+  class CommandFailedError < Error
+    attr_reader :status
+    def initialize( status )
+      @status = status
+    end
+  end
 
   ##
   # Raised when an environment variable hasn't been set.
@@ -158,7 +163,7 @@ class Rake::RemoteTask < Rake::Task
 
     success = system(*cmd)
 
-    raise Rake::CommandFailedError, "execution failed: #{cmdstr}" unless success
+    raise Rake::CommandFailedError.new($?), "execution failed: #{cmdstr}" unless success
   end
 
   ##
@@ -214,7 +219,7 @@ class Rake::RemoteTask < Rake::Task
     end
 
     unless status.success? then
-      raise(Rake::CommandFailedError,
+      raise(Rake::CommandFailedError.new(status),
             "execution failed with status #{status.exitstatus}: #{cmd.join ' '}")
     end
 
