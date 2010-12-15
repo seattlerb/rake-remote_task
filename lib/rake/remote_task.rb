@@ -457,7 +457,9 @@ class Rake::RemoteTask < Rake::Task
                :sudo_prompt,        /^Password:/,
                :umask,              '02',
                :mkdirs,             [],
-               :shared_paths,       {})
+               :shared_paths,       {},
+               :perm_owner,         nil,
+               :perm_group,         nil)
 
     set(:current_release)    { File.join(releases_path, releases[-1]) }
     set(:latest_release)     {
