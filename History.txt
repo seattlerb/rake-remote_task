@@ -1,3 +1,10 @@
+=== 2.0.3 / 2011-02-18
+
+* 2 minor enhancements:
+
+  * Make failure code available via CommandFailedError. (ameuret)
+  * Support owner/group in vlad. (RichGuk)
+
 === 2.0.2 / 2010-09-02
 
 * 1 bug fix:
