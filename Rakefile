@@ -13,7 +13,7 @@ Hoe.spec 'rake-remote_task' do
 
   self.rubyforge_name = 'hitsquad'
 
-  extra_deps << ['rake',  '~> 0.8.0']
+  extra_deps << ['rake',  '>= 0.8.0', '< 0.10.0']
   extra_deps << ['open4', '~> 0.9.0']
 
   extra_dev_deps << ['minitest', '~> 1.7.0']
