@@ -13,10 +13,9 @@ Hoe.spec 'rake-remote_task' do
 
   self.rubyforge_name = 'hitsquad'
 
-  extra_deps << ['rake',  '~> 0.8.0']
-  extra_deps << ['open4', '~> 0.9.0']
-
-  extra_dev_deps << ['minitest', '~> 1.7.0']
+  dependency 'rake',     '~> 0.8'
+  dependency 'open4',    '~> 0.9.0'
+  dependency 'minitest', '~> 1.7.0', :development
 
   multiruby_skip << "rubinius"
 end
