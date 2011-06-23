@@ -3,7 +3,7 @@
 require 'rubygems'
 require 'hoe'
 
-# HACK Hoe.plugin :isolate # fudging releases - work it out w/ release script
+Hoe.plugin :isolate
 Hoe.plugin :seattlerb
 
 Hoe.spec 'rake-remote_task' do
@@ -15,7 +15,6 @@ Hoe.spec 'rake-remote_task' do
 
   dependency 'rake',     '~> 0.8'
   dependency 'open4',    '~> 0.9.0'
-  dependency 'minitest', '~> 1.7.0', :development
 
   multiruby_skip << "rubinius"
 end
