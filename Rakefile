@@ -3,7 +3,7 @@
 require 'rubygems'
 require 'hoe'
 
-Hoe.plugin :isolate
+# Hoe.plugin :isolate - isolates during rake release and borks manifest check
 Hoe.plugin :seattlerb
 
 Hoe.spec 'rake-remote_task' do
