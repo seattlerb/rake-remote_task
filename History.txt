@@ -1,8 +1,9 @@
 === 2.0.4 / 2011-06-22
 
-* 1 bug fix:
+* 2 bug fixes:
 
   * Switched rake dependency to ~> 0.8 so we don't collide with other libs
+  * Included Rake::DSL inside of Rake::TestCase.
 
 === 2.0.3 / 2011-02-18
 
