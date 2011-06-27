@@ -1,7 +1,7 @@
 = rake-remote_task
 
-* http://rubyhitsquad.com/
-* http://rubyforge.org/projects/hitsquad/
+home :: https://github.com/seattlerb/rake-remote_task
+rdoc :: http://hitsquad.rubyforge.org/rake-remote_task
 
 == DESCRIPTION:
 
