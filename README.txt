@@ -15,6 +15,14 @@ Rake with remote task goodness.
 * Uses ssh with your ssh settings already in place.
 * Uses rsync for efficient transfers.
 
+== EXAMPLE:
+
+  require 'rake/remote_task'
+  set :domain, 'abc.example.com'
+  remote_task :foo do
+    run "ls"
+  end
+
 == SYNOPSIS:
 
   remote_task :setup_app, :roles => :app do
