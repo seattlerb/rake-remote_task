@@ -23,6 +23,16 @@ Rake with remote task goodness.
     run "ls"
   end
 
+== EXAMPLE SSH CUSTOMIZATION:
+
+To set the ssh command location:
+
+  set :ssh_cmd, '/usr/local/bin/ssh'
+
+To set ssh flags for the login and port:
+
+  set :ssh_flags, ['-l','joe','-p','2000']
+
 == SYNOPSIS:
 
   remote_task :setup_app, :roles => :app do
