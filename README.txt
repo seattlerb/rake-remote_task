@@ -1,7 +1,7 @@
 = rake-remote_task
 
 home :: https://github.com/seattlerb/rake-remote_task
-rdoc :: http://hitsquad.rubyforge.org/rake-remote_task
+rdoc :: http://docs.seattlerb.org/rake-remote_task
 
 == DESCRIPTION:
 
@@ -24,7 +24,8 @@ Rake with remote task goodness.
 
 == REQUIREMENTS:
 
-* rake, >= 0.8
+* rake
+* open4 gem
 
 == INSTALL:
 
