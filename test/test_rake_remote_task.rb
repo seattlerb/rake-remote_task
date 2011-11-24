@@ -1,16 +1,6 @@
 require 'rake/test_case'
 
 class TestRakeRemoteTask < Rake::TestCase
-  # TODO: move to minitest
-  def assert_silent
-    out, err = capture_io do
-      yield
-    end
-
-    assert_empty err
-    assert_empty out
-  end
-
   def test_enhance
     util_set_hosts
     body = Proc.new { 5 }
@@ -259,14 +249,5 @@ class TestRakeRemoteTask < Rake::TestCase
     assert_equal 1, commands.size, 'wrong number of commands'
     assert_equal ["ssh", "app.example.com", "sudo -p Password: ls"],
                  commands.first, 'app'
-  end
-
-  def util_setup_task(options = {})
-    @task = @rake.remote_task :test_task, options
-    @task.commands = []
-    @task.output = []
-    @task.error = []
-    @task.action = nil
-    @task
   end
 end

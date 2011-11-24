@@ -71,4 +71,13 @@ class Rake::TestCase < MiniTest::Unit::TestCase
     @rake.host "app.example.com", :app
     @rake.host "db.example.com", :db
   end
+
+  def util_setup_task(options = {})
+    @task = @rake.remote_task :test_task, options
+    @task.commands = []
+    @task.output   = []
+    @task.error    = []
+    @task.action   = nil
+    @task
+  end
 end
