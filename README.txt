@@ -45,7 +45,7 @@ To set ssh flags for the login and port:
 == REQUIREMENTS:
 
 * rake
-* open4 gem
+* open4 gem (on MRI ruby; not needed for jruby)
 
 == INSTALL:
 

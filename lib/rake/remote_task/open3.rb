@@ -1,11 +1,13 @@
 require 'open3'
 
+##
 # Implementation of +run+ using stdlib Open3. Currently this is only
 # viable on JRuby where the exit status may be obtained. By comparison
 # open4 requires a fork which isn't available on JRuby.
 module Rake::RemoteOpen3
   include Open3
 
+  ##
   # Use ssh to execute +command+ on target_host. If +command+ uses
   # sudo, the sudo password will be prompted for then saved for
   # subsequent sudo commands.
@@ -78,6 +80,7 @@ module Rake::RemoteOpen3
 
   private
 
+  ##
   # Test hook for injecting status (can't set $?)
   def test_status
     nil

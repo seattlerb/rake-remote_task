@@ -1,11 +1,16 @@
 require 'open4'
 
+##
+# Implementation of +run+ using Open4. This uses fork underneath and
+# therefore only works where fork works (jruby is a notable exception,
+# see RemoteOpen3)
 module Rake::RemoteOpen4
   include Open4
 
   ##
-  # Use ssh to execute +command+ on target_host. If +command+ uses sudo, the
-  # sudo password will be prompted for then saved for subsequent sudo commands.
+  # Use ssh to execute +command+ on target_host. If +command+ uses
+  # sudo, the sudo password will be prompted for then saved for
+  # subsequent sudo commands.
   def run command
     command = "cd #{target_dir} && #{command}" if target_dir
     cmd     = [ssh_cmd, ssh_flags, target_host, command].flatten
