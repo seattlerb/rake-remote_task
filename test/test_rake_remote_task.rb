@@ -24,7 +24,11 @@ class TestRakeRemoteTask < Rake::TestCase
     set :can_set_nil, nil
     set :lies_are, false
     x = 5
-    task = @rake.remote_task(:some_task) { x += some_variable }
+    task = @rake.remote_task(:some_task) do
+      @lock.synchronize do
+        x += some_variable
+      end
+    end
     task.execute nil
     assert_equal 1, task.some_variable
     assert_equal 7, x

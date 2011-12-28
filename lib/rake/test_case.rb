@@ -65,6 +65,7 @@ class Rake::TestCase < MiniTest::Unit::TestCase
     Rake.application.clear
     @task_count = Rake.application.tasks.size
     @rake.set :domain, "example.com"
+    @lock = Mutex.new
   end
 
   def util_set_hosts
