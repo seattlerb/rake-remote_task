@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rake'
+require 'thread'
 
 $TESTING ||= false
 $TRACE = Rake.application.options.trace
