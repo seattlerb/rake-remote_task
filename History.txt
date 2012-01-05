@@ -1,3 +1,13 @@
+=== 2.0.6 / 2012-01-04
+
+* 1 minor enhancement:
+
+  * Add simple SSH example to the readme. (SixArm)
+
+* 1 bug fix:
+
+  * Fix concurrent modification in test with real threads (dekellum)
+
 === 2.0.5 / 2011-10-14
 
 * 1 minor enhancement:
