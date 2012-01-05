@@ -2,7 +2,8 @@ require 'rake/test_case'
 
 class TestRakeRemoteTask < Rake::TestCase
   def teardown
-    Object.send :remove_method, :old_domain
+    Object.send :remove_method, :old_domain if
+      Object.public_instance_methods.include? :old_domain
   end
 
   def test_enhance
