@@ -1,6 +1,10 @@
 require 'rake/test_case'
 
 class TestRakeRemoteTask < Rake::TestCase
+  def teardown
+    Object.send :remove_method, :old_domain
+  end
+
   def test_enhance
     util_set_hosts
     body = Proc.new { 5 }
