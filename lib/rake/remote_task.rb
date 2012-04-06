@@ -461,7 +461,7 @@ class Rake::RemoteTask < Rake::Task
                :perm_owner,         nil,
                :perm_group,         nil)
 
-    set(:current_release)    { File.join(releases_path, releases[-1]) }
+    set(:current_release)    { (releases.any?) ? File.join(releases_path, releases[-1]) : nil }
     set(:latest_release)     {
       deploy_timestamped ? release_path : current_release
     }
