@@ -5,4 +5,6 @@ README.txt
 Rakefile
 lib/rake/remote_task.rb
 lib/rake/test_case.rb
+lib/rake/remote_task/open3.rb
+lib/rake/remote_task/open4.rb
 test/test_rake_remote_task.rb

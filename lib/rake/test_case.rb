@@ -51,9 +51,27 @@ class Rake::RemoteTask
     return 42, @input, out, err
   end
 
+  def popen3( *command )
+    @commands << command
+
+    @input = StringIO.new
+    out = StringIO.new @output.shift.to_s
+    err = StringIO.new @error.shift.to_s
+
+    status = self.action ? self.action[command.join(' ')] : 0
+    Process.expected Status.new(status)
+
+    yield( @input, out, err )
+  end
+
   def select reads, writes, errs, timeout
     [reads, writes, errs]
   end
+
+  def test_status
+    Process.waitpid2(0).first
+  end
+
 end
 
 class Rake::TestCase < MiniTest::Unit::TestCase
