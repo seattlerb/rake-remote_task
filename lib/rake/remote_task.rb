@@ -455,7 +455,7 @@ class Rake::RemoteTask < Rake::Task
                :sudo_cmd,           "sudo",
                :sudo_flags,         ['-p Password:'],
                :sudo_prompt,        /^Password:/,
-               :umask,              '02',
+               :umask,              nil,
                :mkdirs,             [],
                :shared_paths,       {},
                :perm_owner,         nil,
