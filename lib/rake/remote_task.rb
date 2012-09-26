@@ -2,6 +2,8 @@ require 'rubygems'
 require 'open4'
 require 'rake'
 
+require 'rake-remote_task/version'
+
 $TESTING ||= false
 $TRACE = Rake.application.options.trace
 $-w = true if $TRACE # asshat, don't mess with my warn.
@@ -45,7 +47,7 @@ end
 
 class Rake::RemoteTask < Rake::Task
 
-  VERSION = "2.0.6"
+  VERSION = Rake::RemoteTaskGem::VERSION
 
   @@current_roles = []
 
