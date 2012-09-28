@@ -2,6 +2,8 @@ require 'rubygems'
 require 'open4'
 require 'rake'
 
+require 'rake-remote_task/version'
+
 $TESTING ||= false
 $TRACE = Rake.application.options.trace
 $-w = true if $TRACE # asshat, don't mess with my warn.
@@ -45,7 +47,7 @@ end
 
 class Rake::RemoteTask < Rake::Task
 
-  VERSION = "2.0.6"
+  VERSION = Rake::RemoteTaskGem::VERSION
 
   @@current_roles = []
 
@@ -171,7 +173,12 @@ class Rake::RemoteTask < Rake::Task
   # sudo password will be prompted for then saved for subsequent sudo commands.
 
   def run command
-    command = "cd #{target_dir} && #{command}" if target_dir
+    command = [
+               ("cd #{target_dir}"  if target_dir),
+               command_prefix,
+               "#{command}"
+              ].flatten.delete_if { |x| x.nil? or x == "" }.join(" && ")
+
     cmd     = [ssh_cmd, ssh_flags, target_host, command].flatten
     result  = []
 
@@ -455,11 +462,12 @@ class Rake::RemoteTask < Rake::Task
                :sudo_cmd,           "sudo",
                :sudo_flags,         ['-p Password:'],
                :sudo_prompt,        /^Password:/,
-               :umask,              '02',
+               :umask,              nil,
                :mkdirs,             [],
                :shared_paths,       {},
                :perm_owner,         nil,
-               :perm_group,         nil)
+               :perm_group,         nil,
+               :command_prefix,     [])
 
     set(:current_release)    { File.join(releases_path, releases[-1]) }
     set(:latest_release)     {
