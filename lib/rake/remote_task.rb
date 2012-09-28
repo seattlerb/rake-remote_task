@@ -467,7 +467,7 @@ class Rake::RemoteTask < Rake::Task
                :shared_paths,       {},
                :perm_owner,         nil,
                :perm_group,         nil,
-               :command_prefix,     nil)
+               :command_prefix,     [])
 
     set(:current_release)    { File.join(releases_path, releases[-1]) }
     set(:latest_release)     {
