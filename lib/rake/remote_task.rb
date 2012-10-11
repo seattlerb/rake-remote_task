@@ -447,7 +447,6 @@ class Rake::RemoteTask < Rake::Task
                :deploy_via,         :export,
                :keep_releases,      5,
                :rake_cmd,           "rake",
-               :revision,           "head",
                :rsync_cmd,          "rsync",
                :rsync_flags,        ['-azP', '--delete'],
                :ssh_cmd,            "ssh",
