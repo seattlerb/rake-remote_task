@@ -256,6 +256,10 @@ class Rake::RemoteTask < Rake::Task
     @@env
   end
 
+  def self.is_array
+    @@is_array
+  end
+
   ##
   # Fetches environment variable +name+ from the environment using
   # default +default+.
@@ -265,8 +269,21 @@ class Rake::RemoteTask < Rake::Task
     if @@env.has_key? name then
       protect_env(name) do
         v = @@env[name]
-        v = @@env[name] = v.call if Proc === v unless per_thread[name]
-        v = v.call if Proc === v
+        if @@is_array[name] then
+          v = v.map do |item|
+            item = item.call if Proc === item
+            item
+          end
+          if !per_thread[name]
+          then
+            @@env[name] = v
+            @@is_array[name] = false
+          end
+        elsif Proc === v
+        then
+          v = v.call
+          @@env[name] = v unless per_thread[name]
+        end
         v
       end
     elsif default || default == false
@@ -349,6 +366,7 @@ class Rake::RemoteTask < Rake::Task
   def self.reset
     @@def_role_hash = {}                # official default role value
     @@env           = {}
+    @@is_array      = {}
     @@tasks         = {}
     @@roles         = Hash.new { |h,k| h[k] = @@def_role_hash }
     @@env_locks     = Hash.new { |h,k| h[k] = Mutex.new }
@@ -427,6 +445,36 @@ class Rake::RemoteTask < Rake::Task
 
     Object.send :define_method, name do
       Rake::RemoteTask.fetch name
+    end
+  end
+
+  ##
+  # Append +value+ or +default_block+ to  environment variable +name+
+  #
+  # To initialize an empty array, just do append +name+
+  #
+  # If +default_block+ is defined, the block will be executed the
+  # first time the variable is fetched, and the value will be used for
+  # every subsequent fetch.
+
+  def self.append name, value = nil, &default_block
+    raise ArgumentError, "cannot provide both a value and a block" if
+      value and default_block unless
+      value == :per_thread
+    raise ArgumentError, "cannot set reserved name: '#{name}'" if
+      Rake::RemoteTask.reserved_name?(name) unless $TESTING
+
+    name = name.to_s
+
+    set(name, []) unless @@is_array[name]
+    Rake::RemoteTask.is_array[name] = true
+    Rake::RemoteTask.per_thread[name] ||= default_block && value == :per_thread
+
+    v = default_block || value
+    if ! v.nil?
+    then
+      Rake::RemoteTask.default_env[name] << v
+      Rake::RemoteTask.env[name] << v
     end
   end
 
