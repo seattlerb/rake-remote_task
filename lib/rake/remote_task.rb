@@ -171,7 +171,14 @@ class Rake::RemoteTask < Rake::Task
   # sudo password will be prompted for then saved for subsequent sudo commands.
 
   def run command
-    command = "cd #{target_dir} && #{command}" if target_dir
+    commands = []
+
+    commands << "cd #{target_dir}" if target_dir
+    commands += command_prefix.flatten if command_prefix
+    commands << "#{command}"
+
+    command = commands.join(" && ")
+
     cmd     = [ssh_cmd, ssh_flags, target_host, command].flatten
     result  = []
 
@@ -508,6 +515,8 @@ class Rake::RemoteTask < Rake::Task
                :shared_paths,       {},
                :perm_owner,         nil,
                :perm_group,         nil)
+
+    append :command_prefix, []
 
     set(:current_release)    { File.join(releases_path, releases[-1]) }
     set(:latest_release)     {
