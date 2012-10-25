@@ -8,7 +8,7 @@ $-w = true if $TRACE # asshat, don't mess with my warn.
 
 [
  ["Thread.current[:task]", :get, :put, :rsync, :run, :sudo, :target_host],
- ["Rake::RemoteTask",      :host, :remote_task, :role, :set]
+ ["Rake::RemoteTask",      :host, :remote_task, :role, :set, :append]
 ].each do |methods|
   receiver = methods.shift
   methods.each do |method|
