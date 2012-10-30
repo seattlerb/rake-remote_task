@@ -278,22 +278,19 @@ class Rake::RemoteTask < Rake::Task
         v = @@env[name]
         if @@is_array[name] then
           v = v.map do |item|
-            item = item.call if Proc === item
-            item
+            Proc === item ? item.call : item
           end
-          if !per_thread[name]
-          then
+          unless per_thread[name] then
             @@env[name] = v
             @@is_array[name] = false
           end
-        elsif Proc === v
-        then
+        elsif Proc === v then
           v = v.call
           @@env[name] = v unless per_thread[name]
         end
         v
       end
-    elsif default || default == false
+    elsif default || default == false then
       v = @@env[name] = default
     else
       raise Rake::FetchError
@@ -478,8 +475,7 @@ class Rake::RemoteTask < Rake::Task
     Rake::RemoteTask.per_thread[name] ||= default_block && value == :per_thread
 
     v = default_block || value
-    if ! v.nil?
-    then
+    if v then
       Rake::RemoteTask.default_env[name] << v
       Rake::RemoteTask.env[name] << v
     end
