@@ -169,6 +169,9 @@ class Rake::RemoteTask < Rake::Task
   ##
   # Use ssh to execute +command+ on target_host. If +command+ uses sudo, the
   # sudo password will be prompted for then saved for subsequent sudo commands.
+  #
+  # If +command_prefix+ has been filled up with one or several commands, they
+  # will be run on target_host before +command+.
 
   def run command
     commands = []
