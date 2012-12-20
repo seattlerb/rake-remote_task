@@ -524,7 +524,7 @@ class Rake::RemoteTask < Rake::Task
     set(:previous_release)   { File.join(releases_path, releases[-2]) }
     set(:release_name)       { Time.now.utc.strftime("%Y%m%d%H%M%S") }
     set(:release_path)       { File.join(releases_path, release_name) }
-    set(:releases)           { task.run("ls -x #{releases_path}").split.sort }
+    set(:releases)           { task.run("ls -1 #{releases_path}").split("\r\n").sort }
 
     set_path :current_path,  "current"
     set_path :releases_path, "releases"
