@@ -1,3 +1,14 @@
+=== 2.2.0 / 2013-02-07
+
+* 2 minor enhancements:
+
+  * Fix the command to list the releases. The goal is to reduce the impact of an ssh error message (from off by word count to off by line count)
+  * Remove ssh error messages and ancillary dirs from release list
+
+* 1 bug fix:
+
+  * Fixed error with untimetstampted virgin deploy. (goosetav)
+
 === 2.1.0 / 2012-11-23
 
 * 4 minor enhancements:
