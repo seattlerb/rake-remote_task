@@ -1,3 +1,9 @@
+=== 2.2.1 / 2013-03-18
+
+* 1 minor enhancement:
+
+  * Pushed revision (head) variable down to vlad. (jari-dk)
+
 === 2.2.0 / 2013-02-07
 
 * 2 minor enhancements:
