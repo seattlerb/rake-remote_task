@@ -56,7 +56,7 @@ class Rake::RemoteTask
   end
 end
 
-class Rake::TestCase < MiniTest::Unit::TestCase
+class Rake::TestCase < Minitest::Test
   include Rake::DSL if defined? Rake::DSL
 
   def setup
