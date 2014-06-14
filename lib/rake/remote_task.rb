@@ -294,7 +294,7 @@ class Rake::RemoteTask < Rake::Task
         v
       end
     elsif default || default == false then
-      v = @@env[name] = default
+      @@env[name] = default
     else
       raise Rake::FetchError
     end
