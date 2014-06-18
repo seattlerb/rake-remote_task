@@ -45,7 +45,7 @@ end
 
 class Rake::RemoteTask < Rake::Task
 
-  VERSION = "2.2.1"
+  VERSION = "2.2.2"
 
   @@current_roles = []
 

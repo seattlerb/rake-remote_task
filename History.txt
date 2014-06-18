@@ -1,3 +1,14 @@
+=== 2.2.2 / 2014-06-17
+
+* 1 minor enhancement:
+
+  * Updated Rake::TestCase for minitest 5.
+
+* 2 bug fixes:
+
+  * Fixed unused variable warnings
+  * Removed dead rubyforge setting in Rakefile
+
 === 2.2.1 / 2013-03-18
 
 * 1 minor enhancement:
