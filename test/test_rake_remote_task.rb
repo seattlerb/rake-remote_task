@@ -205,6 +205,19 @@ class TestRakeRemoteTask < Rake::TestCase
     assert_equal [["ssh", "app.example.com", "cd /www/dir1 && ls"]], commands
   end
 
+  def test_run_cmd_line_prefix
+    util_setup_task
+    @task.target_host = "app.example.com"
+    @rake.set :cmd_line_prefix, "-c"
+
+      @task.run("ls")
+
+      commands = @task.commands
+
+      assert_equal [["ssh", "app.example.com", "-c ls"]], commands
+    @rake.default_env["cmd_line_prefix"] = nil
+  end
+
   def test_run_failing_command
     util_set_hosts
     util_setup_task
