@@ -35,19 +35,19 @@ class TestRakeRemoteTask < Rake::TestCase
       end
     end
     task.execute nil
-    assert_equal 1, task.some_variable
+    assert_equal 1, task.send(:some_variable)
     assert_equal 7, x
-    assert task.can_set_nil.nil?
-    assert_equal false, task.lies_are
+    assert task.send(:can_set_nil).nil?
+    assert_equal false, task.send(:lies_are)
   end
 
   def test_set_false
     set :can_set_nil, nil
     set :lies_are, false
 
-    assert_equal nil,   task.can_set_nil
+    assert_equal nil,   task.send(:can_set_nil)
 
-    assert_equal false, task.lies_are
+    assert_equal false, task.send(:lies_are)
     assert_equal false, Rake::RemoteTask.fetch(:lies_are)
   end
 
@@ -84,7 +84,7 @@ class TestRakeRemoteTask < Rake::TestCase
     x = 5
     task = @rake.remote_task(:some_task, :roles => :db) { x += some_variable }
     task.execute nil
-    assert_equal 1, task.some_variable
+    assert_equal 1, task.send(:some_variable)
     assert_equal 6, x
   end
 

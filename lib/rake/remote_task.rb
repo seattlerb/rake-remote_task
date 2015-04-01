@@ -453,6 +453,8 @@ class Rake::RemoteTask < Rake::Task
     Object.send :define_method, name do
       Rake::RemoteTask.fetch name
     end
+
+    Object.send :private, name
   end
 
   ##
