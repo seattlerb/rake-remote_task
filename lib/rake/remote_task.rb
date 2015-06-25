@@ -446,7 +446,7 @@ class Rake::RemoteTask < Rake::Task
     Rake::RemoteTask.default_env[name] = Rake::RemoteTask.env[name] =
       default_block || value
 
-    if Object.public_instance_methods.include? name.to_sym then
+    if Object.private_instance_methods.include? name.to_sym then
       Object.send :alias_method, :"old_#{name}", name
     end
 
