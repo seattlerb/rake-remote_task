@@ -1,3 +1,9 @@
+=== 2.3.0 / 2015-06-25
+
+* 1 minor enhancement:
+
+  * Create private methods from Rake::RemoteTask#set. (drbrain)
+
 === 2.2.2 / 2014-06-17
 
 * 1 minor enhancement:
