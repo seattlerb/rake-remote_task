@@ -172,6 +172,8 @@ class Rake::RemoteTask < Rake::Task
   #
   # If +command_prefix+ has been filled up with one or several commands, they
   # will be run on target_host before +command+.
+  #
+  # Yields input channel, :out or :err, and data.
 
   def run command
     commands = []
@@ -223,6 +225,8 @@ class Rake::RemoteTask < Rake::Task
           data << "\n"
           $stderr.write "\n"
         end
+
+        yield inn, stream == out ? :out : :err, data if block_given?
 
         result << data
       end
