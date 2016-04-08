@@ -481,7 +481,6 @@ class Rake::RemoteTask < Rake::Task
 
     v = default_block || value
     if v then
-      Rake::RemoteTask.default_env[name] << v
       Rake::RemoteTask.env[name] << v
     end
   end
