@@ -379,12 +379,16 @@ class Rake::RemoteTask < Rake::Task
     @@env_locks     = Hash.new { |h,k| h[k] = Mutex.new }
 
     @@default_env.each do |k,v|
-      case v
-      when Symbol, Fixnum, nil, true, false, 42 then # ummmm... yeah. bite me.
-        @@env[k] = v
-      else
-        @@env[k] = v.dup
-      end
+      @@env[k] = safe_dup(v)
+    end
+  end
+
+  def self.safe_dup v # :nodoc:
+    case v
+    when Symbol, Fixnum, nil, true, false, 42 then # ummmm... yeah. bite me.
+      v
+    else
+      v.dup
     end
   end
 
@@ -443,8 +447,8 @@ class Rake::RemoteTask < Rake::Task
     Rake::RemoteTask.per_thread[name] = true if
       default_block && value == :per_thread
 
-    Rake::RemoteTask.default_env[name] = Rake::RemoteTask.env[name] =
-      default_block || value
+    Rake::RemoteTask.default_env[name] = default_block || safe_dup(value)
+    Rake::RemoteTask.env[name]         = default_block || safe_dup(value)
 
     if Object.private_instance_methods.include? name.to_sym then
       Object.send :alias_method, :"old_#{name}", name

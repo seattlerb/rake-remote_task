@@ -259,4 +259,9 @@ class TestRakeRemoteTask < Rake::TestCase
     assert_equal ["ssh", "app.example.com", "sudo -p Password: ls"],
                  commands.first, 'app'
   end
+
+  def test_append
+    append :some_array, 1
+    assert_equal [1], some_array
+  end
 end
