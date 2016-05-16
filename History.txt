@@ -1,3 +1,9 @@
+=== 2.3.1 / 2016-05-16
+
+* 1 bug fix:
+
+  * default_env and env were sharing collections. Now duped properly. (bhenderson)
+
 === 2.3.0 / 2015-06-25
 
 * 1 minor enhancement:
