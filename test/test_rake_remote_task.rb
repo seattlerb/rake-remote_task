@@ -45,7 +45,7 @@ class TestRakeRemoteTask < Rake::TestCase
     set :can_set_nil, nil
     set :lies_are, false
 
-    assert_equal nil,   task.send(:can_set_nil)
+    assert_nil task.send(:can_set_nil)
 
     assert_equal false, task.send(:lies_are)
     assert_equal false, Rake::RemoteTask.fetch(:lies_are)
