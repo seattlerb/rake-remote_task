@@ -14,8 +14,6 @@ Hoe.spec 'rake-remote_task' do
   dependency 'rake',    ['>= 0.8', '< 11.0']
   dependency 'open4',    '~> 1.0'
 
-  dependency 'minitest', '~> 5.0', :dev
-
   multiruby_skip << "rubinius"
 end
 

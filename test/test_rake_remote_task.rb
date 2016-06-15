@@ -248,6 +248,41 @@ class TestRakeRemoteTask < Rake::TestCase
     assert_equal "Password:\n", err
   end
 
+  def test_run_with_block
+    util_setup_task
+    @task.output << "file1\nfile2\n"
+    @task.error << 'Enter Password:'
+    @task.target_host = "app.example.com"
+    result = nil
+
+    out, err = capture_io do
+      result = @task.run("./command/with/input") do |input, stream, data|
+        if stream == :out and data == "file1\nfile2\n"
+          input << "myinput\n"
+        elsif stream == :err and data == "Enter Password:"
+          input << "mysecret\n"
+        end
+      end
+    end
+
+    commands = @task.commands
+
+    assert_equal 1, commands.size, 'not enough commands'
+    assert_equal ['ssh', 'app.example.com', './command/with/input'],
+                 commands.first
+
+    assert_equal "myinput\nmysecret\n", @task.input.string
+
+    # WARN: Technically incorrect, the password line should be
+    # first... this is an artifact of changes to the IO code in run
+    # and the fact that we have a very simplistic (non-blocking)
+    # testing model.
+    assert_equal "file1\nfile2\nEnter Password:", result
+
+    assert_equal "file1\nfile2\n", out
+    assert_equal "Enter Password:", err
+  end
+
   def test_sudo
     util_setup_task
     @task.target_host = "app.example.com"
