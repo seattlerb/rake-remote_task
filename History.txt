@@ -1,3 +1,9 @@
+=== 2.4.1 / 2016-10-09
+
+* 1 minor enhancement:
+
+  * Extend to include rake 11 (purcell)
+
 === 2.4.0 / 2016-08-01
 
 * 1 minor enhancement:
