@@ -389,7 +389,7 @@ class Rake::RemoteTask < Rake::Task
 
   def self.safe_dup v # :nodoc:
     case v
-    when Symbol, Fixnum, nil, true, false, 42 then # ummmm... yeah. bite me.
+    when Symbol, Integer, nil, true, false, 42 then # ummmm... yeah. bite me.
       v
     else
       v.dup
