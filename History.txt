@@ -1,3 +1,9 @@
+=== 2.4.2 / 2017-02-27
+
+* 1 bug fix:
+
+  * Fixed 2.4+ Fixnum deprecation warning. (salemine)
+
 === 2.4.1 / 2016-10-09
 
 * 1 minor enhancement:
