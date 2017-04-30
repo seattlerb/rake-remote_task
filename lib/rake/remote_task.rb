@@ -107,10 +107,6 @@ class Rake::RemoteTask < Rake::Task
   # RemoteTask.
 
   def execute(args = nil)
-    raise(Rake::ConfigurationError,
-          "No target hosts specified on task #{self.name} for roles #{options[:roles].inspect}") unless
-      defined_target_hosts?
-
     super args
 
     @remote_actions.each { |act| act.execute(target_hosts, self, args) }
@@ -630,21 +626,6 @@ class Rake::RemoteTask < Rake::Task
   end
 
   ##
-  # Similar to target_hosts, but returns true if user defined any hosts, even
-  # an empty list.
-
-  def defined_target_hosts?
-    return true if ENV["HOSTS"]
-    roles = Array options[:roles]
-    return true if roles.empty?
-    # borrowed from hosts_for:
-    roles.flatten.each { |r|
-      return true unless @@def_role_hash.eql? Rake::RemoteTask.roles[r]
-    }
-    return false
-  end
-
-  ##
   # Action is used to run a task's remote_actions in parallel on each
   # of its hosts. Actions are created automatically in
   # Rake::RemoteTask#enhance.
@@ -686,6 +667,11 @@ class Rake::RemoteTask < Rake::Task
 
     def execute hosts, task, args
       hosts.each do |host|
+        unless task.applies_to? host
+          puts "Skipped task #{task} for host #{host}" if $TRACE
+          next
+        end
+
         t = task.clone
         t.target_host = host
         thread = Thread.new(t) do |task2|
@@ -702,6 +688,10 @@ class Rake::RemoteTask < Rake::Task
       end
       @workers.list.each { |thr| thr.join }
     end
+  end
+
+  def applies_to?(host)
+    options[:roles].empty? || Rake::RemoteTask.hosts_for(options[:roles]).include?(host)
   end
 end
 

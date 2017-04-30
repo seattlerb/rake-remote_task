@@ -66,16 +66,22 @@ class TestRakeRemoteTask < Rake::TestCase
   def test_execute_with_no_hosts
     @rake.host "app.example.com", :app
     t = @rake.remote_task(:flunk, :roles => :db) { flunk "should not have run" }
-    e = assert_raises(Rake::ConfigurationError) { t.execute nil }
-    assert_equal "No target hosts specified on task flunk for roles [:db]",
-                 e.message
+    t.execute nil
   end
 
   def test_execute_with_no_roles
     t = @rake.remote_task(:flunk, :roles => :junk) { flunk "should not have run" }
-    e = assert_raises(Rake::ConfigurationError) { t.execute nil }
-    assert_equal "No target hosts specified on task flunk for roles [:junk]",
-                 e.message
+    t.execute nil
+  end
+
+  def test_execute_with_incompatible_host_and_task_doesnt_run_task
+    host 'app@example.com', :app
+    set :some_variable, 1
+    x = 5
+    task = @rake.remote_task(:some_task, :roles => :not_app) { x += some_variable }
+    task.execute nil
+    assert_equal 1, task.some_variable
+    assert_equal 5, x
   end
 
   def test_execute_with_roles
