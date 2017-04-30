@@ -183,6 +183,7 @@ class Rake::RemoteTask < Rake::Task
     commands << "#{command}"
 
     command = commands.join(" && ")
+    command = "#{cmd_line_prefix} #{command}" if cmd_line_prefix
 
     cmd     = [ssh_cmd, ssh_flags, target_host, command].flatten
     result  = []
@@ -522,7 +523,8 @@ class Rake::RemoteTask < Rake::Task
                :mkdirs,             [],
                :shared_paths,       {},
                :perm_owner,         nil,
-               :perm_group,         nil)
+               :perm_group,         nil,
+               :cmd_line_prefix,    nil)
 
     append :command_prefix, []
 
