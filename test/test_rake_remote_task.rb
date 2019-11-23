@@ -108,8 +108,9 @@ class TestRakeRemoteTask < Rake::TestCase
     @task.target_host = "app.example.com"
     @task.action = proc { false }
 
-    e = assert_raises Rake::CommandFailedError do
-      assert_silent do
+    e = nil
+    assert_silent do
+      e = assert_raises Rake::CommandFailedError do
         @task.rsync 'local', 'host:remote'
       end
     end
